@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Máy Cấp Oxy Tinh Khiết RYNAN®</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+
+        body {
+            font-family: 'UTM-Avo', sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e4e9f0 100%);
+            color: #333;
+            line-height: 1.4;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            position: relative;
+        }
+
+        /* Header */
+        .header {
+            text-align: left;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .header-subtitle {
+            font-size: 12px;
+            color: #666;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-title {
+            font-size: 28px;
+            font-weight: 700;
+            color: #357abd;
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, #357abd, #5b9bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 3s ease infinite;
+            background-size: 200%;
+        }
+
+        @keyframes gradientText {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Main layout */
+        .main-content {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .left-column {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .right-column {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        /* Product image */
+        .product-image-container {
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 15px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            position: relative;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image-container:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-image {
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
+            background: #f5f5f5;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 14px;
+            margin: 0 auto;
+            position: relative;
+            cursor: zoom-in;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .product-image img {
+            max-height: 100%;
+            object-fit: contain;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .product-image:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Loading animation */
+        .product-image.loading::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #357abd;
+            border-top: 4px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Zoom Modal */
+        .zoom-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            overflow: auto;
+        }
+
+        .zoom-modal-content {
+            position: absolute;
+            padding: 20px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 90vw;
+            width: auto;
+            height: auto;
+            border: 2px solid #357abd;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(53, 122, 189, 0.5);
+        }
+
+        .zoom-modal img {
+            width: 100%;
+            height: auto;
+            max-height: 90vh;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .close-zoom {
+            position: absolute;
+            top: 20px;
+            right: 35px;
+            color: #fff;
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-zoom:hover {
+            color: #357abd;
+        }
+
+        /* Thumbnails */
+        .thumbnails {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .thumbnail {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #ddd;
+            background: #f9f9f9;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+            overflow: hidden;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .thumbnail:hover {
+            border-color: #357abd;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(53, 122, 189, 0.3);
+        }
+
+        .thumbnail img {
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .thumbnail.active {
+            border-color: #357abd;
+            border-width: 2px;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border: 1px solid #ddd;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 12px 10px;
+            background: #f8f9fa;
+            border: none;
+            border-right: 1px solid #ddd;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .tab:last-child {
+            border-right: none;
+        }
+
+        .tab:hover {
+            background: #e9ecef;
+            color: #357abd;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #357abd, #2a5e9b);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Right column content */
+        .versions-section {
+            margin-bottom: 25px;
+        }
+
+        .section-title {
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #357abd;
+            position: relative;
+            padding-left: 10px;
+        }
+
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: #357abd;
+            border-radius: 2px;
+        }
+
+        .versions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .version-btn {
+            padding: 6px 12px;
+            background: #b7bbc0;
+            color: rgb(0, 0, 0);
+            border: none;
+            font-size: 11px;
+            cursor: pointer;
+            white-space: nowrap;
+            width: 148px;
+            height: 38px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .version-btn:hover {
+            background: linear-gradient(135deg, #357abd, #5b9bd5);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(53, 122, 189, 0.3);
+        }
+
+        .version-btn.active {
+            background: linear-gradient(135deg, #357abd, #2a5e9b);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(53, 122, 189, 0.5);
+        }
+
+        /* Description */
+        .description-section {
+            margin-bottom: 25px;
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .description-text {
+            font-size: 12px;
+            line-height: 1.5;
+            color: #555;
+            text-align: justify;
+            margin-bottom: 15px;
+        }
+
+        .description-footer {
+            font-size: 10px;
+            color: #888;
+        }
+
+        /* Action buttons */
+        .action-section {
+            display: flex;
+            gap: 10px;
+            align-items: stretch;
+            margin-bottom: 15px;
+        }
+
+        .action-item {
+            display: flex;
+            text-decoration: none;
+            color: #333;
+            border: 1px solid #ddd;
+            background: #ffffff;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .action-item:hover {
+            border-color: #357abd;
+            box-shadow: 0 4px 10px rgba(53, 122, 189, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .action-text {
+            padding: 5px 12px;
+            font-size: 11px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+            background: #ffffff;
+        }
+
+        .action-icon-section {
+            padding: 8px;
+            text-align: center;
+            background: #f9f9f9;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pdf-icon {
+            width: 24px;
+            height: 24px;
+            background: #dc3545;
+            position: relative;
+            border-radius: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .pdf-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .pdf-icon::after {
+            content: 'PDF';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 8px;
+            font-weight: bold;
+        }
+
+        .youtube-icon {
+            width: 24px;
+            height: 24px;
+            background: #ff0000;
+            position: relative;
+            border-radius: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        .youtube-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .youtube-icon::after {
+            content: '▶';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 12px;
+        }
+
+        .contact-btn {
+            flex: 1;
+            background: linear-gradient(135deg, #357abd, #2a5e9b);
+            color: white;
+            border: none;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            padding: 0 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-btn:hover {
+            background: linear-gradient(135deg, #2a5e9b, #357abd);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(53, 122, 189, 0.5);
+        }
+
+        /* Specifications table */
+        .specs-section {
+            margin-top: 30px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .specs-tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .specs-tab {
+            padding: 12px 20px;
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            border-bottom: none;
+            cursor: pointer;
+            font-size: 13px;
+            margin-right: 2px;
+            border-radius: 6px 6px 0 0;
+            transition: all 0.3s ease;
+        }
+
+        .specs-tab:hover {
+            background: #e9ecef;
+            color: #357abd;
+        }
+
+        .specs-tab.active {
+            background: linear-gradient(135deg, #357abd, #2a5e9b);
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .specs-table tr {
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        .specs-table tr:hover {
+            background: rgba(53, 122, 189, 0.1);
+        }
+
+        .specs-table td {
+            padding: 12px 15px;
+            font-size: 12px;
+            vertical-align: top;
+        }
+
+        .specs-table td:first-child {
+            background: #f8f9fa;
+            font-weight: 500;
+            width: 35%;
+            color: #555;
+        }
+
+        .specs-table td:last-child {
+            color: #333;
+        }
+
+        /* Related products */
+        .related-products {
+            margin-top: 40px;
+        }
+
+        .related-title {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #357abd;
+            background: linear-gradient(90deg, #357abd, #5b9bd5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: gradientText 3s ease infinite;
+            background-size: 200%;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .product-card {
+            text-align: center;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(53, 122, 189, 0.3);
+            border-color: #357abd;
+        }
+
+        .product-card-image {
+            background: #f5f5f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            font-size: 12px;
+            border-bottom: 1px solid #ddd;
+            overflow: hidden;
+        }
+
+        .product-card-image img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease;
+        }
+
+        .product-card:hover .product-card-image img {
+            transform: scale(1.05);
+        }
+
+        .product-card-title {
+            padding: 15px 10px 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #333;
+            line-height: 1.3;
+            text-transform: uppercase;
+        }
+
+        .product-card-model {
+            padding: 0 10px 15px;
+            font-size: 11px;
+            color: #357abd;
+            font-weight: bold;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .right-column {
+                padding-left: 0;
+            }
+            
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .versions {
+                justify-content: flex-start;
+            }
+
+            .version-btn {
+                width: auto;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .action-section {
+                flex-direction: column;
+            }
+
+            .thumbnails {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-subtitle">Sản phẩm/Thiết bị nuôi trồng thủy sản/PSAU</div>
+            <h1 class="header-title">MÁY CẤP OXY TINH KHIẾT RYNAN®</h1>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <div class="product-image-container">
+                    <div class="product-image">
+                        <img src="img/PNG_RYNAN PSA1000.png" alt="Hình ảnh máy PSAU1000">
+                    </div>
+                </div>
+                
+                <div class="thumbnails">
+                    <div class="thumbnail active">
+                        <img src="img/PNG_RYNAN PSA1000.png" alt="Góc nhìn 1">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="img/trongkho.jpg" alt="Góc nhìn 2">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="img/trongkhochinhdien.jpg" alt="Góc nhìn 3">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="img/PNG_RYNAN PSA1000.png" alt="Góc nhìn 4">
+                    </div>
+                    <div class="thumbnail">
+                        <img src="img/PNG_RYNAN PSA1000.png" alt="Góc nhìn 5">
+                    </div>
+                    <div class="thumbnail">→</div>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <div class="versions-section">
+                    <div class="section-title">Phiên bản</div>
+                    <div class="versions">
+                        <button class="version-btn active">RYNAN® PSAU1000</button>
+                        <button class="version-btn">RYNAN® PSAU500</button>
+                        <button class="version-btn">RYNAN® PSAU250</button>
+                        <button class="version-btn">RYNAN® M100PSA</button>
+                        <button class="version-btn">RYNAN® M020PSA</button>
+                    </div>
+                </div>
+
+                <div class="description-section">
+                    <div class="section-title">Mô tả</div>
+                    <div class="description-text">
+                        RYNAN® PSAU – Giải pháp tiên phong cho nuôi tôm siêu thâm canh!<br>
+                        Đột phá với công nghệ hấp phụ biến đổi áp suất (PSA) tiên tiến, RYNAN® PSAU cung cấp oxy tinh khiết (>90%) liên tục và ổn định trực tiếp cho ao nuôi, đảm bảo nồng độ oxy hòa tan (DO) luôn trên 7 ppm. Hệ thống này được thiết kế tối ưu cho mô hình nuôi tôm siêu thâm canh, mật độ cao, mang đến môi trường nước lý tưởng, giúp tôm khỏe mạnh, tăng trưởng vượt trội và giảm stress.
+                    </div>
+                    <div class="description-text">
+                        Kết hợp cùng hệ thống lưu trữ oxy linh hoạt và tạo dòng chảy hiệu quả, RYNAN® PSAU không chỉ tối ưu hóa năng lượng mà còn giảm chi phí vận hành, hướng tới quy trình nuôi tôm bền vững. Sản phẩm giúp nâng cao hiệu quả sử dụng thức ăn, tăng sản lượng cuối vụ và chủ động phòng ngừa rủi ro do thiếu hụt oxy đột ngột.
+                    </div>
+                    <div class="description-footer">Thẻ: PSAU</div>
+                </div>
+
+                <div class="action-section">
+                    <a href="#" class="action-item">
+                        <div class="action-text">Brochure</div>
+                        <div class="action-icon-section">
+                            <div class="pdf-icon"></div>
+                        </div>
+                    </a>
+                    <a href="#" class="action-item">
+                        <div class="action-text">Video</div>
+                        <div class="action-icon-section">
+                            <div class="youtube-icon"></div>
+                        </div>
+                    </a>
+                    <button class="contact-btn">LIÊN HỆ TƯ VẤN</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Specifications Section -->
+        <div class="specs-section">
+            <div class="specs-tabs">
+                <div class="specs-tab active">Thông số kỹ thuật</div>
+                <div class="specs-tab">Hướng dẫn sử dụng</div>
+                <div class="specs-tab">Mobile APP</div>
+            </div>
+            
+            <table class="specs-table">
+                <tr>
+                    <td>Công suất tạo oxy</td>
+                    <td>1.000 kg/ngày</td>
+                </tr>
+                <tr>
+                    <td>Lưu lượng khí oxy</td>
+                    <td>500 L/phút</td>
+                </tr>
+                <tr>
+                    <td>Nồng độ oxy tinh khiết</td>
+                    <td>93 ± 3%</td>
+                </tr>
+                <tr>
+                    <td>Áp suất oxy ngõ ra tối đa</td>
+                    <td>3 bar</td>
+                </tr>
+                <tr>
+                    <td>Nhiệt độ điểm sương khí nén</td>
+                    <td>< 10°C</td>
+                </tr>
+                <tr>
+                    <td>Công suất</td>
+                    <td>1.5 kW</td>
+                </tr>
+                <tr>
+                    <td>Điện áp</td>
+                    <td>380 VAC / 3 pha 4 dây / 50 Hz</td>
+                </tr>
+                <tr>
+                    <td>Kích thước (D x R x C)</td>
+                    <td>1.700 x 1.350 x 2.400 mm</td>
+                </tr>
+                <tr>
+                    <td>Khối lượng</td>
+                    <td>1.800 kg</td>
+                </tr>
+                <tr>
+                    <td>Vật liệu</td>
+                    <td>Inox 316</td>
+                </tr>
+                <tr>
+                    <td>Điều khiển</td>
+                    <td>Điều khiển tự động bằng màn hình cảm ứng 7-inch<br>
+                        Điều khiển từ xa bằng ứng dụng điện thoại RYNAN TOMGOXY®</td>
+                </tr>
+                <tr>
+                    <td>Kết nối</td>
+                    <td>4G/Wifi</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Related Products -->
+        <div class="related-products">
+            <h3 class="related-title">Sản phẩm liên quan</h3>
+            <div class="products-grid">
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="img/AQ_Algaesonic.png" alt="Bộ vi sóng diệt tảo">
+                    </div>
+                    <div class="product-card-title">BỘ VI SÓNG DIỆT TẢO RYNAN®</div>
+                    <div class="product-card-model">RYNAN® SAK300</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="img/SMART-ALKALINITY-ANALYZER.png" alt="Máy đo độ kiềm">
+                    </div>
+                    <div class="product-card-title">MÁY ĐO ĐỘ KIỀM THÔNG MINH RYNAN®</div>
+                    <div class="product-card-model">RYNAN® SALA100A</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="img/RYNAN-MFD750.png" alt="Máy đa năng">
+                    </div>
+                    <div class="product-card-title">MÁY ĐA NĂNG RYNAN®</div>
+                    <div class="product-card-model">RYNAN® MFD</div>
+                </div>
+                <div class="product-card">
+                    <div class="product-card-image">
+                        <img src="img/Spectro100.png" alt="Máy đo quang phổ">
+                    </div>
+                    <div class="product-card-title">MÁY ĐO QUANG PHỔ RYNAN®</div>
+                    <div class="product-card-model">RYNAN® SPECTRO100</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Zoom Modal -->
+    <div class="zoom-modal" id="zoomModal">
+        <span class="close-zoom">&times;</span>
+        <div class="zoom-modal-content">
+            <img id="zoomImage" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        // Product data for different versions
+        const productData = {
+            'RYNAN® PSAU1000': {
+                description: `RYNAN® PSAU1000 - Giải pháp tối ưu cho nước lọm siêu thâm canh! 
+                Đột phá với công nghệ hấp phụ biến đổi áp suất (PSA) tiên tiến, RYNAN® PSAU1000 cung cấp oxy 
+                tinh khiết (>95%) ổn định và ổn định trực tiếp cho nước giúp bổ đủ oxy trong hào cần thiết 
+                tới tôm / cá ppml. Công suất lớn 1000kg/ngày phù hợp cho các ao nuôi quy mô công nghiệp.`,
+                price: '???.???.000 đ',
+                specs: {
+                    'Model': 'RYNAN® PSAU1000',
+                    'Công suất tạo oxy': '1.000 kg/ngày',
+                    'Lưu lượng khí oxy': '540 L/phút',
+                    'Nồng độ oxy tinh khiết': '93 ± 3%',
+                    'Áp suất oxy ngõ ra tối đa': '3 bar',
+                    'Nhiệt độ điểm sương khí nén': '< -10ºC',
+                    'Công suất': '1,5 kW',
+                    'Điện áp': '380 VAC / 3 pha 4 dây / 50 Hz',
+                    'Kích thước (D x R x C)': '1.700 x 1.350 x 2.400 mm',
+                    'Khối lượng': '1.800 kg',
+                    'Vật liệu': 'Inox 316'
+                },
+                images: [
+                    'img/PNG_RYNAN PSA1000.png',
+                    'img/trongkho.jpg',
+                    'img/trongkhochinhdien.jpg',
+                    'img/PNG_RYNAN PSA1000.png',
+                    'img/PNG_RYNAN PSA1000.png'
+                ]
+            },
+            'RYNAN® PSAU500': {
+                description: `RYNAN® PSAU500 - Giải pháp hiệu quả cho ao nuôi tôm cá tầm trung!
+                Với công suất 500kg/ngày, máy cung cấp oxy tinh khiết ổn định cho các ao nuôi từ 3000-5000m².
+                Tiết kiệm điện năng và vận hành êm ái, phù hợp cho các hộ nuôi chuyên nghiệp.`,
+                price: '???.???.000 đ',
+                specs: {
+                    'Công suất tạo oxy': '500 kg/ngày',
+                    'Lưu lượng khí oxy': '250 L/phút',
+                    'Nồng độ oxy tinh khiết': '93 ± 3%',
+                    'Áp suất oxy ngõ ra tối đa': '2.5 bar',
+                    'Nhiệt độ điểm sương khí nén': '< 12°C',
+                    'Công suất': '1.5 kW',
+                    'Điện áp': '380 VAC / 3 pha 4 dây / 50 Hz',
+                    'Kích thước (D x R x C)': '1.400 x 1.200 x 2.100 mm',
+                    'Khối lượng': '1.400 kg',
+                    'Vật liệu': 'Inox 316'
+                },
+                images: [
+                    'img/PNG_RYNAN PSAU500.png',
+                    'img/PNG_RYNAN PSAU500.png',
+                    'img/PNG_RYNAN PSAU500.png',
+                    'img/PNG_RYNAN PSAU500.png',
+                    'img/PNG_RYNAN PSAU500.png'
+                ]
+            },
+            'RYNAN® PSAU250': {
+                description: `RYNAN® PSAU250 - Giải pháp compact cho ao nuôi quy mô nhỏ!
+                Công suất 250kg/ngày phù hợp cho các ao từ 1500-2500m². Thiết kế gọn nhẹ, 
+                dễ lắp đặt và bảo trì. Chi phí đầu tư hợp lý cho các hộ gia đình.`,
+                price: '???.???.000 đ',
+                specs: {
+                    'Công suất tạo oxy': '250 kg/ngày',
+                    'Lưu lượng khí oxy': '125 L/phút',
+                    'Nồng độ oxy tinh khiết': '92 ± 3%',
+                    'Áp suất oxy ngõ ra tối đa': '2 bar',
+                    'Nhiệt độ điểm sương khí nén': '< 15°C',
+                    'Công suất': '1.1 kW',
+                    'Điện áp': '220 VAC / 1 pha / 50 Hz',
+                    'Kích thước (D x R x C)': '1.200 x 1.000 x 1.800 mm',
+                    'Khối lượng': '900 kg',
+                    'Vật liệu': 'Inox 304'
+                },
+                images: [
+                    'img/PNG_RYNAN PSAU250.png',
+                    'img/PNG_RYNAN PSAU250.png',
+                    'img/PNG_RYNAN PSAU250.png',
+                    'img/PNG_RYNAN PSAU250.png',
+                    'img/PNG_RYNAN PSAU250.png'
+                ]
+            },
+            'RYNAN® M100PSA': {
+                description: `RYNAN® M100PSA - Hệ thống modular mạnh mẽ!
+                Thiết kế modular cho phép mở rộng công suất theo nhu cầu. Hệ thống điều khiển thông minh,
+                tự động hóa hoàn toàn. Phù hợp cho các trang trại quy mô lớn.`,
+                price: '???.???.000 đ',
+                specs: {
+                    'Công suất tạo oxy': '1.000 kg/ngày',
+                    'Lưu lượng khí oxy': '600 L/phút',
+                    'Áp suất oxy ngõ ra tối đa': '4 bar',
+                    'Nhiệt độ điểm sương khí nén': '< 8°C',
+                    'Công suất': '3.0 kW',
+                    'Điện áp': '380 VAC / 3 pha 4 dây / 50 Hz',
+                    'Kích thước (D x R x C)': '2.000 x 1.500 x 2.600 mm',
+                    'Khối lượng': '2.200 kg',
+                    'Vật liệu': 'Inox 316L'
+                },
+                images: [
+                    'img/PNG_RYNAN M100PSA.png',
+                    'img/PNG_RYNAN M100PSA.png',
+                    'img/PNG_RYNAN M100PSA.png',
+                    'img/PNG_RYNAN M100PSA.png',
+                    'img/PNG_RYNAN M100PSA.png'
+                ]
+            },
+            'RYNAN® M020PSA': {
+                description: `RYNAN® M020PSA - Mini PSA cho hộ gia đình!
+                Công suất nhỏ gọn 200kg/ngày, phù hợp cho ao nuôi gia đình dưới 1000m².
+                Vận hành đơn giản, tiết kiệm điện, bảo trì dễ dàng.`,
+                price: '???.???.000 đ',
+                specs: {
+                    'Công suất tạo oxy': '200 kg/ngày',
+                    'Lưu lượng khí oxy': '100 L/phút',
+                    'Nồng độ oxy tinh khiết': '90 ± 3%',
+                    'Áp suất oxy ngõ ra tối đa': '1.5 bar',
+                    'Nhiệt độ điểm sương khí nén': '< 18°C',
+                    'Công suất': '0.75 kW',
+                    'Điện áp': '220 VAC / 1 pha / 50 Hz',
+                    'Kích thước (D x R x C)': '900 x 800 x 1.500 mm',
+                    'Khối lượng': '600 kg',
+                    'Vật liệu': 'Inox 304'
+                },
+                images: [
+                    'img/PNG_RYNAN M020PSA.png',
+                    'img/PNG_RYNAN M020PSA.png',
+                    'img/PNG_RYNAN M020PSA.png',
+                    'img/PNG_RYNAN M020PSA.png',
+                    'img/PNG_RYNAN M020PSA.png'
+                ]
+            }
+        };
+
+        const manualContent = `
+            <tr><td colspan="2" style="background: #f0f8ff; padding: 15px; text-align: center; font-weight: bold;">HƯỚNG DẪN SỬ DỤNG MÁY CẤP OXY TINH KHIẾT RYNAN®</td></tr>
+            <tr><td>Chuẩn bị</td><td>Lắp đặt máy PSAU cùng các thành phần phụ trợ (máy nén khí, máy sấy khí, bình chứa khí) theo sơ đồ và hướng dẫn kỹ thuật.</td></tr>
+            <tr><td>Khởi động</td><td>Kết nối máy với nguồn điện và hệ thống phân phối oxy vào ao nuôi.</td></tr>
+            <tr><td>Thiết lập</td><td>Cài đặt App TOMGOXY® và thêm thiết bị vào ứng dụng.</td></tr>
+            <tr><td>Cấu hình</td><td>Cấu hình các thông số vận hành cơ bản theo hướng dẫn vận hành.</td></tr>
+            <tr><td>Vận hành</td><td>Vận hành tự động & Giám sát: máy hoạt động hoàn toàn tự động để tạo ra oxy tinh khiết. Theo dõi và điều khiển các thông số vận hành chính trực tiếp trên màn hình HMI của máy hoặc qua App TOMGOXY®.</td></tr>
+            <tr><td>Bảo trì</td><td>Thực hiện bảo trì, bảo dưỡng định kỳ các bộ phận (ví dụ: bộ lọc, van) theo cảnh báo và hướng dẫn từ nhà sản xuất để đảm bảo hiệu suất và tuổi thọ máy.</td></tr>
+        `;
+
+        const appContent = `
+    <a href="javascript:void(0);" onclick="redirectToStore()" target="_blank">
+        <img src="img/tomgoxy.webp" alt="TOMGOXY App" class="app-logo">
+    </a>
+`;
+
+function redirectToStore() {
+    const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    let storeUrl;
+
+    // Kiểm tra nếu là thiết bị iOS
+    if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        storeUrl = 'https://apps.apple.com/vn/app/tomgoxy/id1545344768?l=vi'; // Thay bằng link App Store của bạn
+    }
+    // Kiểm tra nếu là thiết bị Android
+    else if (/android/i.test(userAgent)) {
+        storeUrl = 'https://play.google.com/store/apps/details?id=tomgoxy.rynantech.vn&hl=gsw&pli=1';
+    }
+    // Mặc định cho các thiết bị khác (ví dụ: desktop)
+    else {
+        storeUrl = 'https://play.google.com/store/apps/details?id=tomgoxy.rynantech.vn&hl=gsw&pli=1'; // Hoặc URL trang web chính
+    }
+
+    // Chuyển hướng đến URL
+    window.open(storeUrl, '_blank');
+}
+
+        // Zoom functionality
+        function initZoomFeature() {
+            const zoomModal = document.getElementById('zoomModal');
+            const zoomImage = document.getElementById('zoomImage');
+            const mainImage = document.querySelector('.product-image img');
+            const closeZoom = document.querySelector('.close-zoom');
+
+            function openZoom() {
+                if (mainImage && zoomImage) {
+                    zoomImage.src = mainImage.src;
+                    zoomImage.alt = mainImage.alt;
+                    zoomModal.style.display = 'block';
+                    document.body.style.overflow = 'hidden';
+                }
+            }
+
+            function closeZoomModal() {
+                zoomModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            }
+
+            if (mainImage) mainImage.addEventListener('click', openZoom);
+            if (closeZoom) closeZoom.addEventListener('click', closeZoomModal);
+            if (zoomModal) {
+                zoomModal.addEventListener('click', function(e) {
+                    if (e.target === zoomModal) closeZoomModal();
+                });
+            }
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && zoomModal.style.display === 'block') {
+                    closeZoomModal();
+                }
+            });
+        }
+
+        // Thumbnail functionality
+        function initThumbnailFeature() {
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const mainImg = document.querySelector('.product-image img');
+            const productImage = document.querySelector('.product-image');
+            
+            thumbnails.forEach((thumb, index) => {
+                thumb.addEventListener('click', function() {
+                    if (this.textContent.includes('→')) {
+                        console.log('Arrow clicked - show more images');
+                        return;
+                    }
+                    
+                    thumbnails.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const selectedVersion = document.querySelector('.version-btn.active').textContent.trim();
+                    const images = productData[selectedVersion].images;
+                    
+                    if (mainImg && index < images.length && images[index]) {
+                        productImage.classList.add('loading');
+                        mainImg.style.opacity = '0.3';
+                        setTimeout(() => {
+                            mainImg.src = images[index];
+                            mainImg.alt = `Máy cấp oxy ${selectedVersion} - Góc nhìn ${index + 1}`;
+                            mainImg.style.opacity = '1';
+                            productImage.classList.remove('loading');
+                        }, 300);
+                    }
+                });
+            });
+        }
+
+        // Version buttons functionality
+        function initVersionButtons() {
+            const versionBtns = document.querySelectorAll('.version-btn');
+            const mainImg = document.querySelector('.product-image img');
+            const thumbnails = document.querySelectorAll('.thumbnail');
+            const productImage = document.querySelector('.product-image');
+            
+            versionBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    versionBtns.forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const selectedVersion = this.textContent.trim();
+                    const data = productData[selectedVersion];
+                    
+                    if (data) {
+                        // Update description
+                        const descriptionElements = document.querySelectorAll('.description-text');
+                        if (descriptionElements.length > 0) {
+                            descriptionElements[0].innerHTML = data.description;
+                        }
+                        
+                        // Update specifications
+                        const activeTab = document.querySelector('.specs-tab.active');
+                        if (activeTab && activeTab.textContent.trim() === 'Thông số kỹ thuật') {
+                            updateSpecsTable(data.specs);
+                        }
+                        
+                        // Update main image
+                        if (mainImg && data.images && data.images.length > 0) {
+                            productImage.classList.add('loading');
+                            mainImg.style.opacity = '0.3';
+                            setTimeout(() => {
+                                mainImg.src = data.images[0];
+                                mainImg.alt = `Hình ảnh ${selectedVersion}`;
+                                mainImg.style.opacity = '1';
+                                productImage.classList.remove('loading');
+                            }, 300);
+                        }
+                        
+                        // Update thumbnails
+                        if (data.images) {
+                            thumbnails.forEach((thumb, index) => {
+                                if (index < data.images.length && thumb.querySelector('img')) {
+                                    thumb.querySelector('img').src = data.images[index];
+                                    thumb.querySelector('img').alt = `Góc nhìn ${index + 1}`;
+                                }
+                                thumb.classList.remove('active');
+                                if (index === 0) thumb.classList.add('active');
+                            });
+                        }
+                    }
+                });
+            });
+        }
+
+        // Update specifications table
+        function updateSpecsTable(specs) {
+            const specsTable = document.querySelector('.specs-table');
+            specsTable.innerHTML = '';
+            for (const [key, value] of Object.entries(specs)) {
+                specsTable.innerHTML += `
+                    <tr>
+                        <td>${key}</td>
+                        <td>${value}</td>
+                    </tr>
+                `;
+            }
+        }
+
+        // Tab functionality
+        function updateTabContent(tabName) {
+            const specsTable = document.querySelector('.specs-table');
+            const selectedVersion = document.querySelector('.version-btn.active').textContent.trim();
+            const data = productData[selectedVersion];
+            
+            if (tabName === 'Thông số kỹ thuật') {
+                updateSpecsTable(data.specs);
+            } else if (tabName === 'Hướng dẫn sử dụng') {
+                specsTable.innerHTML = manualContent;
+            } else if (tabName === 'Mobile APP') {
+                specsTable.innerHTML = appContent;
+            }
+        }
+
+        function initTabFunctionality() {
+            const specsTabs = document.querySelectorAll('.specs-tab');
+            
+            specsTabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    specsTabs.forEach(t => t.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const tabName = this.textContent.trim();
+                    updateTabContent(tabName);
+                });
+            });
+        }
+
+        // Contact button
+        function initContactButton() {
+            const contactBtn = document.querySelector('.contact-btn');
+            if (contactBtn) {
+                contactBtn.addEventListener('click', function() {
+                    alert('Liên hệ tư vấn:\n📞 Hotline: 1900 xxxx\n📧 Email: support@rynan.com\n🏢 Địa chỉ: Khu công nghệ cao TP.HCM\n⏰ Hỗ trợ 24/7 miễn phí tư vấn kỹ thuật');
+                });
+            }
+        }
+
+        // Parallax effect for product image
+        function initParallaxEffect() {
+            const productImage = document.querySelector('.product-image');
+            productImage.addEventListener('mousemove', function(e) {
+                const rect = productImage.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                const moveX = (x - centerX) / 50;
+                const moveY = (y - centerY) / 50;
+                productImage.style.transform = `perspective(1000px) rotateX(${moveY}deg) rotateY(${moveX}deg)`;
+            });
+            productImage.addEventListener('mouseleave', function() {
+                productImage.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg)';
+            });
+        }
+
+        // Initialize all functionality when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initZoomFeature();
+            initThumbnailFeature();
+            initVersionButtons();
+            initTabFunctionality();
+            initContactButton();
+            initParallaxEffect();
+        });
+    </script>
+</body>
+</html>
